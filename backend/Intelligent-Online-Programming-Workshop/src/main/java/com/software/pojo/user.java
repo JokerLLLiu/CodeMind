@@ -24,4 +24,8 @@ public class user {
     private LocalDateTime updatedAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastLoginAt;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

@@ -3,9 +3,9 @@ spring:
     name: tlias-web-management
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.100.128:3306/tlias
+    url: jdbc:mysql://39.107.251.22:3306/Intelligent
     username: root
-    password: 1234
+    password: 123
   servlet:
     multipart:
       # 最大单个文件大小
@@ -21,9 +21,3 @@ mybatis:
 logging:
   level:
     org.springframework.jdbc.support.JdbcTransactionManager: debug
-
-aliyun:
-  oss:
-    endpoint: https://oss-cn-beijing.aliyuncs.com
-    bucketName: java-ai-jokerliu
-    region: cn-beijing

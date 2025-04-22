@@ -1,6 +1,5 @@
 package com.software.pojo;
 
-import com.software.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ public class User {
     private String password;
     private String nickname;
     private String avatarUrl;
-    private RoleEnum role;
+    private Integer role;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

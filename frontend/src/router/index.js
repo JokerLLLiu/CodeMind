@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import LoginView from '../views/login/index.vue';
 import LayoutView from '../views/layout/index.vue';
-import ProblemListView from '../views/problem/list.vue';
+import ProblemsView from '../views/problem/list.vue';
 import IndexView from '../views/index/index.vue'
 
 const router = createRouter({
@@ -12,9 +12,9 @@ const router = createRouter({
       path: '/',
       name: '',
       component: LayoutView,
-      redirect: '/problemList', // 重定向到首页
+      redirect: '/index', // 重定向到首页
       children: [
-        { path: 'problemList', name: 'problemList', component: ProblemListView },
+        { path: 'problems', name: 'problems', component: ProblemsView },
         { path: 'index', name: 'index', component: IndexView },
       ]
     },

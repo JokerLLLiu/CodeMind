@@ -21,6 +21,7 @@ public class Problem {
     private int difficulty;
     private String tags;
     private double passRate;
+    private int status;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

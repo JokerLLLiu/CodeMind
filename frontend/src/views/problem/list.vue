@@ -1,30 +1,27 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { Search } from '@element-plus/icons-vue';
+import { queryPageApi } from '@/api/problem.js'
+
+const probelemList = ref([]);
+
+onMounted(() => {
+    search();
+})
 
 const searchInfo = ref('');
 
-const probelemList = ref([
-    { proId: 1, proName: '两数之和', proDifficulty: '简单', proPassRate: '80%', proStatus: '已完成' },
-    { proId: 2, proName: '回文数', proDifficulty: '中等', proPassRate: '70%', proStatus: '未完成' },
-    { proId: 3, proName: '罗马数字转整数', proDifficulty: '困难', proPassRate: '60%', proStatus: '未完成' },
-    { proId: 4, proName: '整数反转', proDifficulty: '简单', proPassRate: '50%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-    { proId: 5, proName: '最长公共前缀', proDifficulty: '中等', proPassRate: '40%', proStatus: '未完成' },
-]);
+
+const search = async () => {
+    const res = await queryPageApi();
+    console.log(res);
+
+    if (res.code) {
+        probelemList.value = res.data;
+    }
+
+}
+
 </script>
 
 <template>
@@ -67,11 +64,11 @@ const probelemList = ref([
             <el-row :gutter="20"> <!-- 每个el-col之间的距离 -->
                 <el-col :span="16">
                     <el-table :data="probelemList" size="large" height="700" stripe style="width: 100%">
-                        <el-table-column align="center" prop="proId" label="题目ID" width="180" />
-                        <el-table-column prop="proName" label="题目名称" width="180" />
-                        <el-table-column prop="proDifficulty" label="难度" />
-                        <el-table-column prop="proPassRate" label="通过率" />
-                        <el-table-column prop="proStatus" label="完成状态" />
+                        <el-table-column align="center" prop="id" label="题目ID" width="180" />
+                        <el-table-column prop="title" label="题目名称" width="180" />
+                        <el-table-column prop="difficulty" label="难度" />
+                        <el-table-column prop="passRate" label="通过率" />
+                        <el-table-column prop="status" label="完成状态" />
                     </el-table>
                     <el-affix :offset="120"> <!-- 距离顶部120px -->
 
@@ -82,7 +79,6 @@ const probelemList = ref([
                 </el-col>
             </el-row>
         </div>
-
     </div>
 </template>
 

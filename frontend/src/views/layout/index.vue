@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-const activeIndex = ref('/index');
+const route = useRoute();
+const activeIndex = ref(route.path);
 </script>
 
 <template>

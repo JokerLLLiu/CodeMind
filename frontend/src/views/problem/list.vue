@@ -11,7 +11,6 @@ onMounted(() => {
 
 const searchInfo = ref('');
 
-
 const search = async () => {
     const res = await queryPageApi();
     console.log(res);
@@ -19,7 +18,10 @@ const search = async () => {
     if (res.code) {
         probelemList.value = res.data;
     }
+}
 
+const handleCurrentChange = (val) => {
+    console.log(`current page:${val}`);
 }
 
 </script>
@@ -70,15 +72,14 @@ const search = async () => {
                         <el-table-column prop="passRate" label="通过率" />
                         <el-table-column prop="status" label="完成状态" />
                     </el-table>
-                    <el-affix :offset="120"> <!-- 距离顶部120px -->
-
-                    </el-affix>
                 </el-col>
                 <el-col :span="8">
 
                 </el-col>
             </el-row>
+            <el-pagination background layout="prev, pager, next" :total="1000" @current-change="handleCurrentChange" />
         </div>
+
     </div>
 </template>
 

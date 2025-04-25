@@ -6,13 +6,13 @@
     <select id="getAllProblems" resultType="com.software.pojo.Problem">
         select p.* from problem p
         <where>
-            <if test="name != null and name != ''">
-                p.title like concat('%',#{name},'%')
+            <if test="title != null and title != ''">
+                p.title like concat('%',#{title},'%')
             </if>
             <if test="difficulty != null">
                 and p.difficulty = #{difficulty}
             </if>
-            <if test="tags != null and tags != ''">
+            <if test="tags != null and !tags.isEmpty()">
                 and p.id in (
                 select pt.problem_id from problem_tag pt
                 left join tag t on pt.tag_id = t.id

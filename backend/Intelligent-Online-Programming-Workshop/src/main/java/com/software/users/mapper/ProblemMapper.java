@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 public interface ProblemMapper {
 
-    List<Problem> getAllProblems(String name,Integer difficulty,List<String> tags);
+    List<Problem> getAllProblems(String title,Integer difficulty,List<String> tags);
 }

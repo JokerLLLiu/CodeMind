@@ -13,58 +13,7 @@ request.interceptors.response.use(
   (response) => { //成功回调
     return response.data
   },
-  (error) => { //失败回调                                \\  0\
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  (error) => { //失败回调
     if (error.response.status === 401) {
       // 提示信息
       ElMessage.error("登录超时，请重新登录");

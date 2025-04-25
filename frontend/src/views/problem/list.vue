@@ -2,27 +2,38 @@
 import { ref, onMounted } from 'vue';
 import { Search } from '@element-plus/icons-vue';
 import { queryPageApi } from '@/api/problem.js'
+import { ElMessage } from 'element-plus'
 
 const probelemList = ref([]);
+const title = ref('');
+const difficulty = ref('');
+const tags = ref('');
 
 onMounted(() => {
     search();
 })
 
-const searchInfo = ref('');
-
 const search = async () => {
-    const res = await queryPageApi();
+    const res = await queryPageApi(title.value, difficulty.value, tags.value);
     console.log(res);
-
     if (res.code) {
-        probelemList.value = res.data;
+        probelemList.value = res.data.rows;
+        console.log(res.data.row);
+
     }
 }
 
+// 当前页码变化时触发的函数
 const handleCurrentChange = (val) => {
     console.log(`current page:${val}`);
 }
+
+// 点击难度下拉菜单时触发的函数
+const handleDifficultyCommand = (command) => {
+    difficulty.value = command;
+    search();
+}
+
 
 </script>
 
@@ -31,15 +42,15 @@ const handleCurrentChange = (val) => {
         <p style="font-size: 20px; margin:0">题目列表</p>
         <div class="type myMargin">
             <!-- 难度 -->
-            <el-dropdown class="difficulty">
+            <el-dropdown class="difficulty" hide-on-click="true" @command="handleDifficultyCommand">
                 <el-button type="info" plain>
                     难度<el-icon><arrow-down /></el-icon>
                 </el-button>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item style="color:green">简单</el-dropdown-item>
-                        <el-dropdown-item style="color:orange">中等</el-dropdown-item>
-                        <el-dropdown-item style="color:red">困难</el-dropdown-item>
+                        <el-dropdown-item style="color:green" command="1">简单</el-dropdown-item>
+                        <el-dropdown-item style="color:orange" command="2">中等</el-dropdown-item>
+                        <el-dropdown-item style="color:red" command="3">困难</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -59,11 +70,12 @@ const handleCurrentChange = (val) => {
                 </template>
             </el-dropdown>
             <!-- 搜索框 -->
-            <el-input v-model="searchInfo" style="width: 240px" placeholder="Please Input" :suffix-icon="Search" />
+            <el-input v-model="title" style="width: 240px" placeholder="Please Input" :suffix-icon="Search" />
         </div>
         <!-- 题库及数据展示 -->
         <div class="content myMargin">
             <el-row :gutter="20"> <!-- 每个el-col之间的距离 -->
+                <!-- 题库展示 -->
                 <el-col :span="16">
                     <el-table :data="probelemList" size="large" height="600" stripe style="width: 100%">
                         <el-table-column align="center" prop="id" label="题目ID" width="180" />
@@ -73,13 +85,13 @@ const handleCurrentChange = (val) => {
                         <el-table-column prop="status" label="完成状态" />
                     </el-table>
                 </el-col>
+                <!-- 数据展示 -->
                 <el-col :span="8">
 
                 </el-col>
             </el-row>
             <el-pagination background layout="prev, pager, next" :total="1000" @current-change="handleCurrentChange" />
         </div>
-
     </div>
 </template>
 

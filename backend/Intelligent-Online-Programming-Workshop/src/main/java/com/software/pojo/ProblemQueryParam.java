@@ -12,14 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProblemQueryParam {
-    private String name;
+    private String title;
     private Integer difficulty;
     private String tags;
     private Integer page = 1;
     private Integer pageSize = 10;
 
     public List<String> getTagList() {
-        return tags != null ?
+        return tags != null && !tags.isEmpty() ?
                 Arrays.asList(tags.split(",")) :
                 Collections.emptyList();
     }

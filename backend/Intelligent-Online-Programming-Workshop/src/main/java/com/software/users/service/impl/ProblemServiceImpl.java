@@ -7,12 +7,14 @@ import com.software.pojo.Problem;
 import com.software.pojo.ProblemQueryParam;
 import com.software.users.mapper.ProblemMapper;
 import com.software.users.service.ProblemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProblemServiceImpl implements ProblemService {
 
     @Autowired
@@ -23,7 +25,7 @@ public class ProblemServiceImpl implements ProblemService {
         PageHelper.startPage(problemQueryParam.getPage(),problemQueryParam.getPageSize());
 
         List<String> tagList = problemQueryParam.getTagList();
-        List<Problem> allProblems = problemMapper.getAllProblems(problemQueryParam.getName(), problemQueryParam.getDifficulty(), tagList);
+        List<Problem> allProblems = problemMapper.getAllProblems(problemQueryParam.getTitle(), problemQueryParam.getDifficulty(), tagList);
 
         Page<Problem> page = (Page<Problem>) allProblems;
         return new PageResult<Problem>(page.getTotal(),page.getResult());

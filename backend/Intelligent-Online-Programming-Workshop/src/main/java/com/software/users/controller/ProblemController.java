@@ -1,5 +1,6 @@
 package com.software.users.controller;
 
+import com.software.pojo.PageResult;
 import com.software.pojo.Problem;
 import com.software.pojo.ProblemQueryParam;
 import com.software.pojo.Result;
@@ -19,8 +20,7 @@ public class ProblemController {
 
     @GetMapping("/problems")
     public Result page(ProblemQueryParam problemQueryParam){
-        log.info("problemQueryParam的值为：{}", problemQueryParam);
-        List<Problem> allProblems = problemService.getAllProblems();
+        PageResult<Problem> allProblems = problemService.getAllProblems(problemQueryParam);
         return Result.success(allProblems);
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.users.mapper.ProblemMapper">
+    <select id="getAllProblems" resultType="com.software.pojo.Problem">
+        select p.* from problem p
+        <where>
+            <if test="name != null and name != ''">
+                p.title like concat('%',#{name},'%')
+            </if>
+            <if test="difficulty != null">
+                and p.difficulty = #{difficulty}
+            </if>
+            <if test="tags != null and tags != ''">
+                and p.id in (
+                select pt.problem_id from problem_tag pt
+                left join tag t on pt.tag_id = t.id
+                where t.name in
+                <foreach item="tag" collection="tags" open="(" separator="," close=")">
+                    #{tag}
+                </foreach>
+                )
+            </if>
+        </where>
+    </select>
+</mapper>

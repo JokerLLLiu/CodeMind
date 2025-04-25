@@ -9,6 +9,5 @@ import java.util.List;
 @Mapper
 public interface ProblemMapper {
 
-    @Select("select * from problem")
-    List<Problem> getAllProblems();
+    List<Problem> getAllProblems(String name,Integer difficulty,List<String> tags);
 }

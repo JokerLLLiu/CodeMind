@@ -19,7 +19,6 @@ public class Problem {
     private int timeLimit;
     private int memoryLimit;
     private int difficulty;
-    private String tags;
     private double passRate;
     private int status;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

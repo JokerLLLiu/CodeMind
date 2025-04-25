@@ -65,7 +65,7 @@ const handleCurrentChange = (val) => {
         <div class="content myMargin">
             <el-row :gutter="20"> <!-- 每个el-col之间的距离 -->
                 <el-col :span="16">
-                    <el-table :data="probelemList" size="large" height="700" stripe style="width: 100%">
+                    <el-table :data="probelemList" size="large" height="600" stripe style="width: 100%">
                         <el-table-column align="center" prop="id" label="题目ID" width="180" />
                         <el-table-column prop="title" label="题目名称" width="180" />
                         <el-table-column prop="difficulty" label="难度" />

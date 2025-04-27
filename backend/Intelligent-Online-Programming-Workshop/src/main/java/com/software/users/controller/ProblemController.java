@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -22,5 +23,10 @@ public class ProblemController {
     public Result page(ProblemQueryParam problemQueryParam){
         PageResult<Problem> allProblems = problemService.getAllProblems(problemQueryParam);
         return Result.success(allProblems);
+    }
+    @GetMapping("/problems/tags")
+    public Result getTags(){
+        List<Map<Integer,String>> tags = problemService.getTags();
+        return Result.success(tags);
     }
 }

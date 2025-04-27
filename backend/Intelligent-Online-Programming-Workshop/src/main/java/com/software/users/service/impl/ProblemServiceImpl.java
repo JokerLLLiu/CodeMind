@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -21,10 +22,15 @@ public class ProblemServiceImpl implements ProblemService {
     private ProblemMapper problemMapper;
 
     @Override
+    public List<Map<Integer, String>> getTags() {
+        return problemMapper.getAllTags();
+    }
+
+    @Override
     public PageResult<Problem> getAllProblems(ProblemQueryParam problemQueryParam) {
         PageHelper.startPage(problemQueryParam.getPage(),problemQueryParam.getPageSize());
 
-        List<String> tagList = problemQueryParam.getTagList();
+        List<String> tagList = problemQueryParam.getTagList();  // 获得全部tagId
         List<Problem> allProblems = problemMapper.getAllProblems(problemQueryParam.getTitle(), problemQueryParam.getDifficulty(), tagList);
 
         Page<Problem> page = (Page<Problem>) allProblems;

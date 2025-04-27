@@ -1,25 +1,38 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Search } from '@element-plus/icons-vue';
-import { queryPageApi } from '@/api/problem.js'
+import { queryPageApi, queryTagsApi } from '@/api/problem.js'
 import { ElMessage } from 'element-plus'
 
 const probelemList = ref([]);
-const title = ref('');
-const difficulty = ref('');
-const tags = ref('');
+const searchForm = ref({
+    title: '',
+    difficulty: '',
+    tags: []
+});
+
+const tags = ref([]);
 
 onMounted(() => {
+    getAllTags();
     search();
 })
 
+// 查询
 const search = async () => {
-    const res = await queryPageApi(title.value, difficulty.value, tags.value);
-    console.log(res);
+    const res = await queryPageApi(searchForm.value.title, searchForm.value.difficulty, searchForm.value.tags);
     if (res.code) {
         probelemList.value = res.data.rows;
-        console.log(res.data.row);
+    }
+}
 
+// 获取所有标签
+const getAllTags = async () => {
+    const res = await queryTagsApi();
+    console.log(res);
+
+    if (res.code) {
+        tags.value = res.data;
     }
 }
 
@@ -30,11 +43,22 @@ const handleCurrentChange = (val) => {
 
 // 点击难度下拉菜单时触发的函数
 const handleDifficultyCommand = (command) => {
-    difficulty.value = command;
+    searchForm.value.difficulty = command;
     search();
 }
 
-
+// 标签点击触发函数
+const handleTagChange = (tagId, isChecked) => {
+    if (isChecked) {
+        searchForm.value.tags.push(tagId);
+    } else {
+        const index = searchForm.value.tags.indexOf(tagId);
+        if (index !== -1) {
+            searchForm.value.tags.splice(index, 1);
+        }
+    }
+    search();
+}
 </script>
 
 <template>
@@ -54,23 +78,17 @@ const handleDifficultyCommand = (command) => {
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <!-- 标签 -->
-            <el-dropdown>
-                <el-button type="info" plain>
-                    标签<el-icon><arrow-down /></el-icon>
-                </el-button>
-                <template #dropdown>
-                    <el-dropdown-menu>
-                        <el-dropdown-item>Action 1</el-dropdown-item>
-                        <el-dropdown-item>Action 2</el-dropdown-item>
-                        <el-dropdown-item>Action 3</el-dropdown-item>
-                        <el-dropdown-item>Action 4</el-dropdown-item>
-                        <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                </template>
-            </el-dropdown>
             <!-- 搜索框 -->
-            <el-input v-model="title" style="width: 240px" placeholder="Please Input" :suffix-icon="Search" />
+            <el-input v-model="searchForm.title" style="width: 240px" placeholder="请输入题目" :suffix-icon="Search" />
+        </div>
+        <!-- 标签 -->
+        <div class="myMargin">
+            <p style="font-size: 20px; margin:0">标签</p>
+            <el-check-tag class="check-tag" v-for="tag in tags" :key="tag.id"
+                :checked="searchForm.tags.includes(tag.id)" type="primary"
+                @change="(isChecked) => handleTagChange(tag.id, isChecked)">
+                {{ tag.name }}
+            </el-check-tag>
         </div>
         <!-- 题库及数据展示 -->
         <div class="content myMargin">
@@ -105,6 +123,10 @@ const handleDifficultyCommand = (command) => {
 }
 
 .type .el-dropdown {
+    margin-right: 10px;
+}
+
+.check-tag {
     margin-right: 10px;
 }
 </style>

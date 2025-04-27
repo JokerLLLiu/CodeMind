@@ -61,6 +61,14 @@ const handleTagChange = (tagId, isChecked) => {
     search();
 }
 
+// 清空
+const clear = () => {
+    searchForm.value.title = '';
+    searchForm.value.difficulty = '';
+    searchForm.value.tags = [];
+    search();
+}
+
 // 监听page和pageSize的变化
 watch([() => searchForm.value.page, () => searchForm.value.pageSize], () => {
     search();
@@ -85,7 +93,11 @@ watch([() => searchForm.value.page, () => searchForm.value.pageSize], () => {
                 </template>
             </el-dropdown>
             <!-- 搜索框 -->
-            <el-input v-model="searchForm.title" style="width: 240px" placeholder="请输入题目" :suffix-icon="Search" />
+            <el-input v-model="searchForm.title" style="width: 240px" placeholder="请输入题目" clearable />
+            <!-- 重置按钮 -->
+            <el-button type="info" @click="clear()">清空</el-button>
+            <!-- 查询按钮 -->
+            <el-button type="primary" @click="search()">查询</el-button>
         </div>
         <!-- 标签 -->
         <div class="myMargin">
@@ -130,7 +142,7 @@ watch([() => searchForm.value.page, () => searchForm.value.pageSize], () => {
     margin-top: 20px;
 }
 
-.type .el-dropdown {
+.type>* {
     margin-right: 10px;
 }
 

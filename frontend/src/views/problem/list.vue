@@ -1,14 +1,19 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { Search } from '@element-plus/icons-vue';
 import { queryPageApi, queryTagsApi } from '@/api/problem.js'
 import { ElMessage } from 'element-plus'
 
-const probelemList = ref([]);
+const probelemList = ref({
+    list: [],
+    total: ''
+});
 const searchForm = ref({
     title: '',
     difficulty: '',
-    tags: []
+    tags: [],
+    page: '1',
+    pageSize: '10'
 });
 
 const tags = ref([]);
@@ -20,9 +25,10 @@ onMounted(() => {
 
 // 查询
 const search = async () => {
-    const res = await queryPageApi(searchForm.value.title, searchForm.value.difficulty, searchForm.value.tags);
+    const res = await queryPageApi(searchForm.value.title, searchForm.value.difficulty, searchForm.value.tags, searchForm.value.page, searchForm.value.pageSize);
     if (res.code) {
-        probelemList.value = res.data.rows;
+        probelemList.value.list = res.data.rows;
+        probelemList.value.total = res.data.total;
     }
 }
 
@@ -34,11 +40,6 @@ const getAllTags = async () => {
     if (res.code) {
         tags.value = res.data;
     }
-}
-
-// 当前页码变化时触发的函数
-const handleCurrentChange = (val) => {
-    console.log(`current page:${val}`);
 }
 
 // 点击难度下拉菜单时触发的函数
@@ -59,6 +60,11 @@ const handleTagChange = (tagId, isChecked) => {
     }
     search();
 }
+
+// 监听page和pageSize的变化
+watch([() => searchForm.value.page, () => searchForm.value.pageSize], () => {
+    search();
+});
 </script>
 
 <template>
@@ -95,7 +101,7 @@ const handleTagChange = (tagId, isChecked) => {
             <el-row :gutter="20"> <!-- 每个el-col之间的距离 -->
                 <!-- 题库展示 -->
                 <el-col :span="16">
-                    <el-table :data="probelemList" size="large" height="600" stripe style="width: 100%">
+                    <el-table :data="probelemList.list" size="large" height="600" stripe style="width: 100%">
                         <el-table-column align="center" prop="id" label="题目ID" width="180" />
                         <el-table-column prop="title" label="题目名称" width="180" />
                         <el-table-column prop="difficulty" label="难度" />
@@ -108,7 +114,9 @@ const handleTagChange = (tagId, isChecked) => {
 
                 </el-col>
             </el-row>
-            <el-pagination background layout="prev, pager, next" :total="1000" @current-change="handleCurrentChange" />
+            <el-pagination background v-model:current-page="searchForm.page" v-model:page-size="searchForm.pageSize"
+                :page-sizes="[10, 15, 30, 50, 100]" layout="total, sizes, prev, pager, next, jumper"
+                :total="probelemList.total" />
         </div>
     </div>
 </template>

@@ -8,3 +8,6 @@ export const queryPageApi = (title,difficulty,tags,page,pageSize) => {
 
 // 查询标签库
 export const queryTagsApi = () => request.get('/problems/tags');
+
+// 通过id查询题目详情
+export const queryProblemByIdApi = (id) => request.get(`/problems/${id}`);

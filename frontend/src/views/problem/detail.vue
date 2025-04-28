@@ -1,23 +1,55 @@
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { queryProblemByIdApi } from '@/api/problem.js';
+import { ElMessage } from 'element-plus';
+import router from '@/router';
 
-// 获取当前路由实例
-const route = useRoute()
-// 定义一个响应式变量来存储 id
-const problemId = ref(null)
+const route = useRoute();
+
+const problemInfo = ref({
+    id: '', // 题目ID
+    title: '', // 题目名称
+    description: '', // 题目描述
+    inputExample: '', // 输入描述
+    outputExample: '', // 输出描述
+    timeLimit: '', // 时间限制
+    memoryLimit: '', // 内存限制
+    difficulty: '', // 题目难度
+    passRate: '', // 通过率
+    status: '', // 题目状态
+    tags: [], // 题目标签
+});
 
 onMounted(() => {
-    // 从路由参数中获取 id
-    problemId.value = route.params.id
-    console.log('获取到的题目 ID 是:', problemId.value)
-})
+    getProblemById(route.params.id);
+});
+
+// 根据ID查询题目信息
+const getProblemById = async (id) => {
+    const res = await queryProblemByIdApi(id);
+    if (res.code) {
+        problemInfo.value = res.data;
+    } else {
+        ElMessage.error(res.msg)
+    }
+}
+
+// 返回上一页
+const goBack = () => {
+    router.go(-1);
+}
+
+
 </script>
 
 <template>
     <div>
-        <!-- 可以在这里使用 problemId -->
-        <p>当前题目 ID 是: {{ problemId }}</p>
+        <el-page-header @back="goBack">
+            <template #content>
+                <span class="text-large font-600 mr-3"> {{ problemInfo.title }} </span>
+            </template>
+        </el-page-header>
     </div>
 </template>
 

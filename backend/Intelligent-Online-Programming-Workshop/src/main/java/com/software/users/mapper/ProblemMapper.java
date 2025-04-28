@@ -15,4 +15,6 @@ public interface ProblemMapper {
 
     @MapKey("id")
     List<Map<Integer, String>> getAllTags();
+
+    Problem getProblemById(Integer id);
 }

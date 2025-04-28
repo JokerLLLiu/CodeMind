@@ -13,20 +13,27 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/problems")
 @Slf4j
 public class ProblemController {
 
     @Autowired
     private ProblemService problemService;
 
-    @GetMapping("/problems")
+    @GetMapping
     public Result page(ProblemQueryParam problemQueryParam){
         PageResult<Problem> allProblems = problemService.getAllProblems(problemQueryParam);
         return Result.success(allProblems);
     }
-    @GetMapping("/problems/tags")
+    @GetMapping("/tags")
     public Result getTags(){
         List<Map<Integer,String>> tags = problemService.getTags();
         return Result.success(tags);
+    }
+
+    @GetMapping("/{id}")
+    public Result getProblemById(@PathVariable Integer id){
+        Problem problem = problemService.getProblemById(id);
+        return Result.success(problem);
     }
 }

@@ -16,4 +16,7 @@ public interface ProblemService {
 
     // 获取所有标签
     List<Map<Integer, String>> getTags();
+
+    // 根据id获取题目
+    Problem getProblemById(Integer id);
 }

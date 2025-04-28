@@ -27,6 +27,11 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     @Override
+    public Problem getProblemById(Integer id) {
+        return problemMapper.getProblemById(id);
+    }
+
+    @Override
     public PageResult<Problem> getAllProblems(ProblemQueryParam problemQueryParam) {
         PageHelper.startPage(problemQueryParam.getPage(),problemQueryParam.getPageSize());
 

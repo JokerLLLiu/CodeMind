@@ -14,7 +14,7 @@ public class User {
     private Integer id;
     private String email;
     private String password;
-    private String nickname;
+    private String username;
     private String avatarUrl;
     private Integer role;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.software.users.mapper.ProblemMapper">
+    <select id="getAllProblems" resultType="com.software.pojo.Problem">
+        select p.* from problem p
+        <where>
+            <if test="title != null and title != ''">
+                p.title like concat('%',#{title},'%')
+            </if>
+            <if test="difficulty != null">
+                and p.difficulty = #{difficulty}
+            </if>
+            <if test="tags != null and !tags.isEmpty()">
+                and p.id in (
+                select pt.problem_id from problem_tag pt
+                left join tag t on pt.tag_id = t.id
+                where t.id in
+                <foreach item="tag" collection="tags" open="(" separator="," close=")">
+                    #{tag}
+                </foreach>
+                )
+            </if>
+        </where>
+    </select>
+
+    <select id="getAllTags" resultType="java.util.Map">
+        select t.id,t.name from tag t order by id;
+    </select>
+
+    <resultMap id="problemResultMap" type="com.software.pojo.Problem">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="inputExample" column="input_example"/>
+        <result property="outputExample" column="output_example"/>
+        <result property="timeLimit" column="time_limit"/>
+        <result property="memoryLimit" column="memory_limit"/>
+        <result property="difficulty" column="difficulty"/>
+        <result property="passRate" column="pass_rate"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+        <collection property="tags" ofType="java.lang.String">
+            <result column="name"/>
+        </collection>
+    </resultMap>
+
+<!--    根据id查询题目-->
+    <select id="getProblemById" resultMap="problemResultMap">
+        select temp.*,t.name from (select p.*,pt.tag_id from problem p left join problem_tag pt on p.id = pt.problem_id) temp left join tag t on temp.tag_id = t.id where temp.id = #{id};
+    </select>
+</mapper>

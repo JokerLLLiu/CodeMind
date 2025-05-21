@@ -5,116 +5,113 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>2.7.3</version>
 	</parent>
 	<groupId>com.software</groupId>
-	<artifactId>Intelligent-Online-Programming-Workshop</artifactId>
+	<artifactId>CodeMind</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Intelligent-Online-Programming-Workshop</name>
-	<description>Intelligent-Online-Programming-Workshop</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+	<packaging>pom</packaging>
+	<modules>
+		<module>CodeMind-server</module>
+		<module>CodeMind-pojo</module>
+		<module>CodeMind-common</module>
+	</modules>
 	<properties>
-		<java.version>17</java.version>
+		<mybatis.spring>2.2.0</mybatis.spring>
+		<lombok>1.18.20</lombok>
+		<fastjson>1.2.76</fastjson>
+		<commons.lang>2.6</commons.lang>
+		<druid>1.2.1</druid>
+		<pagehelper>1.3.0</pagehelper>
+		<aspectj>1.9.4</aspectj>
+		<jjwt>0.9.1</jjwt>
+		<jaxb-api>2.3.1</jaxb-api>
+		<aliyun.sdk.oss>3.10.2</aliyun.sdk.oss>
+		<jakarta.servlet>6.0.0</jakarta.servlet>
 	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis.spring}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok}</version>
+			</dependency>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>3.0.4</version>
-		</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson}</version>
+			</dependency>
 
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter-test</artifactId>
-			<version>3.0.4</version>
-			<scope>test</scope>
-		</dependency>
-		<!--分页插件PageHelper-->
-		<dependency>
-			<groupId>com.github.pagehelper</groupId>
-			<artifactId>pagehelper-spring-boot-starter</artifactId>
-			<version>1.4.7</version>
-		</dependency>
-		<!--JWT-->
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
-			<version>0.12.3</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>0.12.3</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>0.12.3</version>
-			<scope>runtime</scope>
-		</dependency>
-	</dependencies>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>${commons.lang}</version>
+			</dependency>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>${druid}</version>
+			</dependency>
 
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter-test</artifactId>
+				<version>3.0.4</version>
+				<scope>test</scope>
+			</dependency>
+
+			<!--过滤器-->
+			<dependency>
+				<groupId>jakarta.servlet</groupId>
+				<artifactId>jakarta.servlet-api</artifactId>
+				<version>${jakarta.servlet}</version>
+			</dependency>
+
+			<!--分页插件PageHelper-->
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper-spring-boot-starter</artifactId>
+				<version>${pagehelper}</version>
+			</dependency>
+
+			<!-- AspectJ 切面 -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj}</version>
+			</dependency>
+			<!--JWT-->
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt</artifactId>
+				<version>${jjwt}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${jaxb-api}</version>
+			</dependency>
+
+			<!-- 阿里云OSS -->
+			<dependency>
+				<groupId>com.aliyun.oss</groupId>
+				<artifactId>aliyun-sdk-oss</artifactId>
+				<version>${aliyun.sdk.oss}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

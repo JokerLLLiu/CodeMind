@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.software.mapper.ProblemMapper">
+    <select id="getAllProblems" resultType="com.software.entity.Problem">
+        select * from problem
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%',#{title},'%')
+            </if>
+            <if test="difficulty != null">
+                and difficulty = #{difficulty}
+            </if>
+            <if test="tags != null and !tags.isEmpty()">
+                and tags in
+                <foreach collection="tags" item="tag" open="(" separator="," close=")">
+                    #{tag}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

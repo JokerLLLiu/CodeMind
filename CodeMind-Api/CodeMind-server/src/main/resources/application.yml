@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-circular-references: ${codemind.allow-circular-references}
+  datasource:
+    druid:
+      driver-class-name: ${codemind.datasource.driver-class-name}
+      url: jdbc:mysql://${codemind.datasource.host}:${codemind.datasource.port}/${codemind.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${codemind.datasource.username}
+      password: ${codemind.datasource.password}
+redis:
+  host: ${codemind.redis.host}
+  port: ${codemind.redis.port}
+  database: ${codemind.redis.database}
+
+mybatis:
+  #mapper 配置文件
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.codemind.entity
+  configuratiion:
+    # 开启驼峰命名
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com:
+      software:
+        mapper: debug
+        service: info
+        controller: info
+
+codemind:
+  jwt:
+    # 设置jwt签名加密时使用的密钥
+    secret-key: CodeMind
+    # 设置jwt过期时间
+    ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    token-name: token
